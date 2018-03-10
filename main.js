@@ -12,16 +12,19 @@ var alleleHierarchy = {
 var parent1 = new plant("Tulip", 1, "red", "red");
 var parent2 = new plant("Tulip", 1, "white", "white");
 
-//var child1 = new plant("Tulip", 2, "red", "white");
-//var child2 = new plant("Tulip", 2, "red", "white");
+//var other1 = new plant("Tulip", 2, "red", "white");
+//var other2 = new plant("Tulip", 2, "red", "white");
 
 var generationCount = 1;
 
 generationCount++;
+var child1 = xPollinate(parent1, parent2, generationCount);
+var child2 = xPollinate(parent1, parent2, generationCount);
 
-var child1 = xPollinate(child1, child2, generationCount);
+generationCount++;
+var x = xPollinate(child1, child2, generationCount);
 
-displayPlant(child1);
+displayPlant(x,"child1");
 
 function xPollinate(plant1, plant2, generation){
 	
@@ -88,10 +91,26 @@ function findInArray(value, array){
 	return "null";
 }
 
-//display a plant through alerts
-function displayPlant(plant){
+//display a plant through DOM
+function displayPlant(plant, div){
+	//calculate if the plant is heterozygous or homozygous
+	if(plant.allele1 == plant.allele2){
+		var zygous = "homozygous";
+	}
+	else{
+		var zygous = "heterozygous";
+	}
+	var phenotype = plant.allele1; //allele1 is dominant
+	div = document.getElementById(div);
+	console.log(div);
+	div.innerHTML = "Species: " + plant.species + "<br>" + "Generation: " + plant.generation + "<br>" + "Alleles: " + zygous + " " + phenotype;
+}
+
+//display a plant through alerts (old)
+function displayPlantOld(plant){
 	window.alert("Species: " + plant.species);
 	window.alert("Generation: " + plant.generation);
+	//calculate if the plant is heterozygous or homozygous
 	if(plant.allele1 == plant.allele2){
 		var zygous = "homozygous";
 	}
