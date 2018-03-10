@@ -11,10 +11,15 @@ var alleleHierarchy = {
 
 var generationCount = 1;
 
-
+//listen for clone button
+document.getElementById("cloneButton").onclick = function() {
+	document.getElementById("p2Species").value = document.getElementById("p1Species").value;
+	document.getElementById("p2Allele1").value = document.getElementById("p1Allele1").value;
+	document.getElementById("p2Allele2").value = document.getElementById("p1Allele2").value;
+};
 
 //listen for input button
-document.getElementById("button").onclick = function() {
+document.getElementById("pollinateButton").onclick = function() {
 	takeInput();
 };
 
@@ -63,7 +68,7 @@ function xPollinate(plant1, plant2, generation){
 				//alleles are co-dominant (homozygous)
 			}
 			else{
-				window.alert("x-Pollination failed. Reason: unknown issue with allele domination (consult Jake).");
+				window.alert("x-Pollination failed. Reason: a plant allele does not exist.");
 			}
 			
 			//make child
@@ -105,7 +110,7 @@ function displayPlant(plant, div){
 	div = document.getElementById(div);
 	//console.log(div);
 	//console.log(div);
-	div.innerHTML = "Species: " + plant.species + "<br>" + "Generation: " + plant.generation + "<br>" + "Alleles: " + zygous + " " + phenotype;
+	div.innerHTML = "<ul><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
 }
 
 //display a plant through alerts (old)
