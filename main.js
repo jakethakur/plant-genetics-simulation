@@ -5,10 +5,21 @@ function plant(species, generation, allele1, allele2){
 	this.allele2 = allele2;
 }
 
+var alleleHierarchy = {
+	Tulip: ["red","white"],
+}
+
 var parent1 = new plant("Tulip", 1, "red", "red");
 var parent2 = new plant("Tulip", 1, "white", "white");
 
-var child1 = xPollinate(parent1, parent1, 2);
+//var child1 = new plant("Tulip", 2, "red", "white");
+//var child2 = new plant("Tulip", 2, "red", "white");
+
+var generationCount = 1;
+
+generationCount++;
+
+var child1 = xPollinate(child1, child2, generationCount);
 
 displayPlant(child1);
 
@@ -21,28 +32,63 @@ function xPollinate(plant1, plant2, generation){
 			var allele1 = plant1.allele1; 
 		}
 		else{
-			var allele1 = plant2.allele1; 
+			var allele1 = plant1.allele2; 
 		}
 		
 		random = Math.floor(Math.random() * 2) + 1;
 		if(random === 1){
-			var allele2 = plant1.allele2; 
+			var allele2 = plant2.allele1; 
 		}
 		else{
 			var allele2 = plant2.allele2; 
 		}
 		
-		var child = new plant(plant1.species, generation, allele1, allele2);
-		return child;
+		try{
+			var possibleAlleles = alleleHierarchy[plant1.species];
+			//find which allele is dominant, and put it in the allele1 slot
+			if(findInArray(allele1, possibleAlleles) < findInArray(allele2, possibleAlleles)){
+				//allele1 is dominant
+			}
+			else if(findInArray(allele1, possibleAlleles) > findInArray(allele2, possibleAlleles)){
+				//allele2 is dominant
+				var mem = allele1;
+				allele1 = allele2;
+				allele2 = mem;
+			}
+			else if(findInArray(allele1, possibleAlleles) == findInArray(allele2, possibleAlleles)){
+				//alleles are co-dominant (homozygous)
+			}
+			else{
+				window.alert("xPollination failed. Reason: unknown issue with allele domination (consult Jake).");
+			}
+			
+			//make child
+			var child = new plant(plant1.species, generation, allele1, allele2);
+			return child;
+		}
+		catch(err){
+			window.alert("xPollination failed. Reason: the plant species does not exist.");
+		}
 		
 	}
 	
 	else{
-		window.alert("The plants are not of the same species");
+		window.alert("xPollination failed. Reason: the plants are not of the same species.");
 	}
 	
 }
 
+//find allele in array
+function findInArray(value, array){
+	for(var i = 0; i < array.length; i++){
+		if(value == array[i]){
+			return i;
+		}
+	}
+	return "null";
+}
+
+//display a plant through alerts
 function displayPlant(plant){
 	window.alert("Species: " + plant.species);
 	window.alert("Generation: " + plant.generation);
@@ -52,6 +98,6 @@ function displayPlant(plant){
 	else{
 		var zygous = "heterozygous";
 	}
-	var phenotype = plant.allele1;
+	var phenotype = plant.allele1; //allele1 is dominant
 	window.alert("Alleles: " + zygous + " " + phenotype);
 }
