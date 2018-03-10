@@ -1,3 +1,4 @@
+//plant constructor
 function plant(species, generation, allele1, allele2){
 	this.species = species;
 	this.generation = generation;
@@ -5,11 +6,14 @@ function plant(species, generation, allele1, allele2){
 	this.allele2 = allele2;
 }
 
+//allele dominance (lower index = more dominant)
+//to do: support co-dominant alleles (array in object?)
 var alleleHierarchy = {
 	Tulip: ["red","white"],
 }
 
-var generationCount = 1;
+//where current displayed child is chached
+var childInformation = null;
 
 //listen for clone button
 document.getElementById("cloneButton").onclick = function() {
@@ -23,14 +27,29 @@ document.getElementById("pollinateButton").onclick = function() {
 	takeInput();
 };
 
+//transfer child to parent 1
+document.getElementById("transferButton1").onclick = function() {
+	document.getElementById("p1Species").value = childInformation.species;
+	document.getElementById("p1Allele1").value = childInformation.allele1;
+	document.getElementById("p1Allele2").value = childInformation.allele2;
+	document.getElementById("generation").value = parseInt(childInformation.generation) + 1;
+};
+
+//transfer child to parent 2
+document.getElementById("transferButton2").onclick = function() {
+	document.getElementById("p2Species").value = childInformation.species;
+	document.getElementById("p2Allele1").value = childInformation.allele1;
+	document.getElementById("p2Allele2").value = childInformation.allele2;
+	document.getElementById("generation").value = parseInt(childInformation.generation) + 1;
+};
+
 //take user input and x-pollinate their two plants
 function takeInput(){
-	var plant1 = new plant(document.getElementById("p1Species").value, generationCount, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
-	var plant2 = new plant(document.getElementById("p2Species").value, generationCount, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
-	var child = xPollinate(plant1, plant2, generationCount);
+	var plant1 = new plant(document.getElementById("p1Species").value, document.getElementById("generation").value - 1, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
+	var plant2 = new plant(document.getElementById("p2Species").value, document.getElementById("generation").value - 1, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
+	var child = xPollinate(plant1, plant2, document.getElementById("generation").value);
 	displayPlant(child,"child1");
-}
-        
+}     
 
 function xPollinate(plant1, plant2, generation){
 	
@@ -111,6 +130,7 @@ function displayPlant(plant, div){
 	//console.log(div);
 	//console.log(div);
 	div.innerHTML = "<ul><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
+	childInformation = plant; //cache current child
 }
 
 //display a plant through alerts (old)
@@ -126,4 +146,5 @@ function displayPlantOld(plant){
 	}
 	var phenotype = plant.allele1; //allele1 is dominant
 	window.alert("Alleles: " + zygous + " " + phenotype);
+	childInformation = plant; //cache current child
 }
