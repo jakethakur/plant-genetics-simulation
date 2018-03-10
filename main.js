@@ -9,22 +9,23 @@ var alleleHierarchy = {
 	Tulip: ["red","white"],
 }
 
-var parent1 = new plant("Tulip", 1, "red", "red");
-var parent2 = new plant("Tulip", 1, "white", "white");
-
-//var other1 = new plant("Tulip", 2, "red", "white");
-//var other2 = new plant("Tulip", 2, "red", "white");
-
 var generationCount = 1;
 
-generationCount++;
-var child1 = xPollinate(parent1, parent2, generationCount);
-var child2 = xPollinate(parent1, parent2, generationCount);
 
-generationCount++;
-var x = xPollinate(child1, child2, generationCount);
 
-displayPlant(x,"child1");
+//listen for input button
+document.getElementById("button").onclick = function() {
+	takeInput();
+};
+
+//take user input and x-pollinate their two plants
+function takeInput(){
+	var plant1 = new plant(document.getElementById("p1Species").value, generationCount, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
+	var plant2 = new plant(document.getElementById("p2Species").value, generationCount, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
+	var child = xPollinate(plant1, plant2, generationCount);
+	displayPlant(child,"child1");
+}
+        
 
 function xPollinate(plant1, plant2, generation){
 	
@@ -62,7 +63,7 @@ function xPollinate(plant1, plant2, generation){
 				//alleles are co-dominant (homozygous)
 			}
 			else{
-				window.alert("xPollination failed. Reason: unknown issue with allele domination (consult Jake).");
+				window.alert("x-Pollination failed. Reason: unknown issue with allele domination (consult Jake).");
 			}
 			
 			//make child
@@ -70,13 +71,13 @@ function xPollinate(plant1, plant2, generation){
 			return child;
 		}
 		catch(err){
-			window.alert("xPollination failed. Reason: the plant species does not exist.");
+			window.alert("x-Pollination failed. Reason: the plant species does not exist.");
 		}
 		
 	}
 	
 	else{
-		window.alert("xPollination failed. Reason: the plants are not of the same species.");
+		window.alert("x-Pollination failed. Reason: the plants are not of the same species.");
 	}
 	
 }
@@ -102,7 +103,8 @@ function displayPlant(plant, div){
 	}
 	var phenotype = plant.allele1; //allele1 is dominant
 	div = document.getElementById(div);
-	console.log(div);
+	//console.log(div);
+	//console.log(div);
 	div.innerHTML = "Species: " + plant.species + "<br>" + "Generation: " + plant.generation + "<br>" + "Alleles: " + zygous + " " + phenotype;
 }
 
