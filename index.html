@@ -35,8 +35,8 @@
 	<li>Child generation: <input type="text" id="generation"></li>
 </ul>
      
-<button id="pollinateButton" onclick="takeInput(1)">x-Pollinate once</button>
-<button id="populationButton" onclick="takeInput(20)">Create population</button>
+Number of plants to produce: <input type="number" min="1" value="1" id="pollinationAmount">
+<button id="pollinateButton" onclick="takeInput(document.getElementById('pollinationAmount').value)">x-Pollinate!</button>
 
 <h2>Child</h2>
 <div id="child1">Your child plant will appear here...</div>
