@@ -47,7 +47,7 @@ document.getElementById("transferButton2").onclick = function() {
 	document.getElementById("generation").value = parseInt(childInformation.generation) + 1;
 };
 
-//take user input and x-pollinate their two plants
+//take user input and x-pollinate their two plants (triggered by x-pollinate button)
 function takeInput(count){
 	var plant1 = new plant(document.getElementById("p1Species").value, document.getElementById("generation").value - 1, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
 	var plant2 = new plant(document.getElementById("p2Species").value, document.getElementById("generation").value - 1, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
@@ -57,10 +57,13 @@ function takeInput(count){
 	}
 }     
 
+//x-pollinate two plants
 function xPollinate(plant1, plant2, generation){
 	
-	if(plant1.species == plant2.species){
+	if(plant1.species == plant2.species){ //check plant species are the same
 		
+		//pick which alleles are from which parent
+		//allele1
 		var random = Math.floor(Math.random() * 2) + 1;	//random number between one and two
 		if(random === 1){
 			var allele1 = plant1.allele1; 
@@ -68,7 +71,7 @@ function xPollinate(plant1, plant2, generation){
 		else{
 			var allele1 = plant1.allele2; 
 		}
-		
+		//allele2
 		random = Math.floor(Math.random() * 2) + 1;
 		if(random === 1){
 			var allele2 = plant2.allele1; 
@@ -101,7 +104,7 @@ function xPollinate(plant1, plant2, generation){
 			var child = new plant(plant1.species, generation, allele1, allele2);
 			return child;
 		}
-		catch(err){
+		catch(err){ //error is thrown if a hierarchy array does not exist for the inputted species
 			window.alert("x-Pollination failed. Reason: the plant species does not exist.");
 		}
 		
@@ -123,16 +126,19 @@ function findInArray(value, array){
 	return "null";
 }
 
+//store plant data in results section
 function storeResults(plant){
 	var zygous = isZygous(plant) + " ";
-	var phenotype = plant.allele1; //allele1 is dominant
-	if(results[zygous + plant.allele1] == null){
+	var phenotype = plant.allele1; //allele1 is dominant, so is used as the phenotype (appearance)
+	
+	if(results[zygous + plant.allele1] == null){ //check if there is already a piece of data in results for that outcome
 		results[zygous + plant.allele1] = 1;
 	}
-	else{
+	else{ //otherwise make a piece of data in results for that outcome
 		results[zygous + plant.allele1]++;
 	}
 	
+	//update results table via DOM
 	document.getElementById("displayResults").innerHTML = JSON.stringify(results);
 }
 
@@ -140,7 +146,7 @@ function storeResults(plant){
 function displayPlant(plant, div){
 	//calculate if the plant is heterozygous or homozygous
 	var zygous = isZygous(plant);
-	var phenotype = plant.allele1; //allele1 is dominant
+	var phenotype = plant.allele1; //allele1 is dominant, so is used as the phenotype (appearance)
 	div = document.getElementById(div);
 	//console.log(div);
 	div.innerHTML = "<ul><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
@@ -155,6 +161,7 @@ function displayPlant(plant, div){
 	}
 }
 
+//check if plant is homozygous (both alleles the same) or heterozygous (both alleles different)
 function isZygous(plant){
 	if(plant.allele1 == plant.allele2){
 		var zygous = "homozygous";
@@ -176,7 +183,7 @@ function displayPlantOld(plant){
 	else{
 		var zygous = "heterozygous";
 	}
-	var phenotype = plant.allele1; //allele1 is dominant
+	var phenotype = plant.allele1; //allele1 is dominant, so is used as the phenotype (appearance)
 	window.alert("Alleles: " + zygous + " " + phenotype);
 	childInformation = plant; //cache current child
 }
