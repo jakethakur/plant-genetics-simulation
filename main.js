@@ -6,6 +6,15 @@ function plant(species, generation, allele1, allele2){
 	this.allele2 = allele2;
 }
 
+//results object
+var results = {};
+
+//reset results function
+function resetResults(){
+	results = {};
+	document.getElementById("displayResults").innerHTML = "Waiting for results...";
+}
+
 //allele dominance (lower index = more dominant)
 //to do: support co-dominant alleles (array in object?)
 var alleleHierarchy = {
@@ -20,11 +29,6 @@ document.getElementById("cloneButton").onclick = function() {
 	document.getElementById("p2Species").value = document.getElementById("p1Species").value;
 	document.getElementById("p2Allele1").value = document.getElementById("p1Allele1").value;
 	document.getElementById("p2Allele2").value = document.getElementById("p1Allele2").value;
-};
-
-//listen for input button
-document.getElementById("pollinateButton").onclick = function() {
-	takeInput();
 };
 
 //transfer child to parent 1
@@ -44,11 +48,13 @@ document.getElementById("transferButton2").onclick = function() {
 };
 
 //take user input and x-pollinate their two plants
-function takeInput(){
+function takeInput(count){
 	var plant1 = new plant(document.getElementById("p1Species").value, document.getElementById("generation").value - 1, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
 	var plant2 = new plant(document.getElementById("p2Species").value, document.getElementById("generation").value - 1, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
-	var child = xPollinate(plant1, plant2, document.getElementById("generation").value);
-	displayPlant(child,"child1");
+	for(var i = 0; i < count; i++){
+		var child = xPollinate(plant1, plant2, document.getElementById("generation").value);
+		displayPlant(child,"child1");
+	}
 }     
 
 function xPollinate(plant1, plant2, generation){
@@ -117,15 +123,23 @@ function findInArray(value, array){
 	return "null";
 }
 
+function storeResults(plant){
+	var zygous = isZygous(plant) + " ";
+	var phenotype = plant.allele1; //allele1 is dominant
+	if(results[zygous + plant.allele1] == null){
+		results[zygous + plant.allele1] = 1;
+	}
+	else{
+		results[zygous + plant.allele1]++;
+	}
+	
+	document.getElementById("displayResults").innerHTML = JSON.stringify(results);
+}
+
 //display a plant through DOM
 function displayPlant(plant, div){
 	//calculate if the plant is heterozygous or homozygous
-	if(plant.allele1 == plant.allele2){
-		var zygous = "homozygous";
-	}
-	else{
-		var zygous = "heterozygous";
-	}
+	var zygous = isZygous(plant);
 	var phenotype = plant.allele1; //allele1 is dominant
 	div = document.getElementById(div);
 	//console.log(div);
@@ -134,6 +148,21 @@ function displayPlant(plant, div){
 	
 	//console log for debugging
 	console.log(plant);
+	
+	//check if the plant should be stored in results
+	if(document.getElementById("generationTrack").value == plant.generation){
+		storeResults(plant);
+	}
+}
+
+function isZygous(plant){
+	if(plant.allele1 == plant.allele2){
+		var zygous = "homozygous";
+	}
+	else{
+		var zygous = "heterozygous";
+	}
+	return zygous;
 }
 
 //display a plant through alerts (old)

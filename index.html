@@ -8,8 +8,10 @@
 <div style="float: right">
 	<h2>Results</h2>
 	Track results for generation: <input type="text" id="generationTrack">
-	TBD
-	<button id="resetResults">Reset results</button>
+	<br><br>
+	<div id="displayResults">Waiting for results...</div>
+	<br>
+	<button id="resetResults" onclick="resetResults()">Reset results</button>
 </div>
 
 <h2>Parent 1</h2>
@@ -33,8 +35,8 @@
 	<li>Child generation: <input type="text" id="generation"></li>
 </ul>
      
-<button id="pollinateButton">x-Pollinate once!</button>
-<!--<button id="populationButton">Create population!</button>-->
+<button id="pollinateButton" onclick="takeInput(1)">x-Pollinate once</button>
+<button id="populationButton" onclick="takeInput(20)">Create population</button>
 
 <h2>Child</h2>
 <div id="child1">Your child plant will appear here...</div>
