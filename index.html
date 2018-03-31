@@ -5,6 +5,13 @@
 </head>
 <body>
 
+<div style="float: right">
+	<h2>Results</h2>
+	Track results for generation: <input type="text" id="generationTrack">
+	TBD
+	<button id="resetResults">Reset results</button>
+</div>
+
 <h2>Parent 1</h2>
 <ul>
     <li>Species: <input type="text" id="p1Species"></li>
@@ -12,7 +19,7 @@
 	<li>Allele 2: <input type="text" id="p1Allele2"></li>
 </ul>
 
-<button id="cloneButton">Copy information</button>
+<button id="cloneButton">Copy information to parent 2</button>
 
 <h2>Parent 2</h2>
 <ul>
@@ -26,7 +33,8 @@
 	<li>Child generation: <input type="text" id="generation"></li>
 </ul>
      
-<button id="pollinateButton">x-Pollinate!</button>
+<button id="pollinateButton">x-Pollinate once!</button>
+<!--<button id="populationButton">Create population!</button>-->
 
 <h2>Child</h2>
 <div id="child1">Your child plant will appear here...</div>

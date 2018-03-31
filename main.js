@@ -79,6 +79,7 @@ function xPollinate(plant1, plant2, generation){
 			}
 			else if(findInArray(allele1, possibleAlleles) > findInArray(allele2, possibleAlleles)){
 				//allele2 is dominant
+				//swap alleles
 				var mem = allele1;
 				allele1 = allele2;
 				allele2 = mem;
@@ -128,9 +129,11 @@ function displayPlant(plant, div){
 	var phenotype = plant.allele1; //allele1 is dominant
 	div = document.getElementById(div);
 	//console.log(div);
-	//console.log(div);
 	div.innerHTML = "<ul><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
-	childInformation = plant; //cache current child
+	childInformation = plant; //store current child
+	
+	//console log for debugging
+	console.log(plant);
 }
 
 //display a plant through alerts (old)
