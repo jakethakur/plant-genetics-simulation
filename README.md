@@ -2,7 +2,7 @@
 
 a simulation for the cross-pollination of plants, created using JS
 
-### view the simulation [here](https://jakethakur22.github.io/plant-genetics-simulation/index.html)
+### view the simulation [here](https://jakethakur.github.io/plant-genetics-simulation/index.html)
 
 ## currently supported plants and alleles
 
