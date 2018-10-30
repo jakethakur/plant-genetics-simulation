@@ -48,11 +48,14 @@ document.getElementById("transferButton2").onclick = function() {
 };
 
 //take user input and x-pollinate their two plants (triggered by x-pollinate button)
+//count = number of plants being produced
 function takeInput(count){
+	//create plants
 	var plant1 = new plant(document.getElementById("p1Species").value, document.getElementById("generation").value - 1, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
 	var plant2 = new plant(document.getElementById("p2Species").value, document.getElementById("generation").value - 1, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
+	//iterate through plants being produced
 	for(var i = 0; i < count; i++){
-		console.log(i);
+		//display each plant
 		var child = xPollinate(plant1, plant2, document.getElementById("generation").value);
 		displayPlant(child,"child1", i);
 	}
@@ -102,9 +105,7 @@ function xPollinate(plant1, plant2, generation){
 			}
 			
 			//make child
-			// let setchild = document.getElementById("child1");
 			var child = new plant(plant1.species, generation, allele1, allele2);
-			// setchild.appendChild(child);
 			return child;
 		}
 		catch(err){ //error is thrown if a hierarchy array does not exist for the inputted species
@@ -146,18 +147,14 @@ function storeResults(plant){
 }
 
 //display a plant through DOM
-function displayPlant(plant, div, i){
+function displayPlant(plant, div, plantNumber){
 	//calculate if the plant is heterozygous or homozygous
 	var zygous = isZygous(plant);
 	var phenotype = plant.allele1; //allele1 is dominant, so is used as the phenotype (appearance)
 	div = document.getElementById(div);
-	let progeny = i + 1;
-	//console.log(div);
-	div.innerHTML += "<ul><p>Child " + (progeny) + "</p><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
+	let progeny = plantNumber + 1; //calculate which number plant this is in the results
+	div.innerHTML += "<ul><p>Child " + progeny + "</p><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
 	childInformation = plant; //store current child
-	
-	//console log for debugging
-	console.log(plant);
 	
 	//check if the plant should be stored in results
 	if(document.getElementById("generationTrack").value == plant.generation){
@@ -177,7 +174,7 @@ function isZygous(plant){
 }
 
 //display a plant through alerts (old)
-function displayPlantOld(plant){
+function displayPlantAlert(plant){
 	window.alert("Species: " + plant.species);
 	window.alert("Generation: " + plant.generation);
 	//calculate if the plant is heterozygous or homozygous
