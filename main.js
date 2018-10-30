@@ -52,8 +52,9 @@ function takeInput(count){
 	var plant1 = new plant(document.getElementById("p1Species").value, document.getElementById("generation").value - 1, document.getElementById("p1Allele1").value, document.getElementById("p1Allele2").value);
 	var plant2 = new plant(document.getElementById("p2Species").value, document.getElementById("generation").value - 1, document.getElementById("p2Allele1").value, document.getElementById("p2Allele2").value);
 	for(var i = 0; i < count; i++){
+		console.log(i);
 		var child = xPollinate(plant1, plant2, document.getElementById("generation").value);
-		displayPlant(child,"child1");
+		displayPlant(child,"child1", i);
 	}
 }     
 
@@ -101,7 +102,9 @@ function xPollinate(plant1, plant2, generation){
 			}
 			
 			//make child
+			// let setchild = document.getElementById("child1");
 			var child = new plant(plant1.species, generation, allele1, allele2);
+			// setchild.appendChild(child);
 			return child;
 		}
 		catch(err){ //error is thrown if a hierarchy array does not exist for the inputted species
@@ -143,13 +146,14 @@ function storeResults(plant){
 }
 
 //display a plant through DOM
-function displayPlant(plant, div){
+function displayPlant(plant, div, i){
 	//calculate if the plant is heterozygous or homozygous
 	var zygous = isZygous(plant);
 	var phenotype = plant.allele1; //allele1 is dominant, so is used as the phenotype (appearance)
 	div = document.getElementById(div);
+	let progeny = i + 1;
 	//console.log(div);
-	div.innerHTML = "<ul><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
+	div.innerHTML += "<ul><p>Child " + (progeny) + "</p><li>Species: " + plant.species + "</li><li>" + "Generation: " + plant.generation + "</li><li>" + "Alleles: " + zygous + " " + phenotype + "</ul>";
 	childInformation = plant; //store current child
 	
 	//console log for debugging
